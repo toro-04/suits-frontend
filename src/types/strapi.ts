@@ -1,3 +1,9 @@
+// A single size option
+export interface SizeOption {
+  code: string;
+  label: string;
+}
+
 // A single color option
 export interface ColorOption {
   hex: string;
@@ -5,42 +11,48 @@ export interface ColorOption {
   label: string;
 }
 
-// The structure of the Available_Color object
-export interface AvailableColorStructure {
-  availableColors: ColorOption[];
-}
-
-// A single size option
-export interface SizeOption {
-  code: string;
-  label: string;
-}
-
-// The structure of the Available_sizes object
+// The structure of the Available_sizes object from your API
 export interface AvailableSizesStructure {
   altSuitSizing: SizeOption[];
   availableSizes: SizeOption[];
 }
 
+// The structure of the Available_Color object from your API
+export interface AvailableColorStructure {
+  availableColors: ColorOption[];
+}
+
+// A specific format of an image (e.g., small, medium)
+export interface ImageFormat {
+  url: string;
+  width: number;
+  height: number;
+}
+
 // A single image file from your 'Images' array
 export interface ImageFile {
   id: number;
-  url: string;
+  url: string; // The original, full-size image URL
   name: string;
   width: number;
   height: number;
-  // Add other image properties if you need them
+  // This object contains the optimized versions of the image
+  formats?: {
+    small?: ImageFormat;
+    medium?: ImageFormat;
+    thumbnail?: ImageFormat;
+  };
 }
 
-// The main Product type, now fully typed
+// The main Product type, matching your unique API response
 export interface Product {
   id: number;
   documentId: string;
   Name: string;
   Description: string;
   Base_Price: number;
-  Available_Color: AvailableColorStructure; // Updated from 'any'
-  Available_sizes: AvailableSizesStructure; // Updated from 'any'
+  Available_Color: AvailableColorStructure;
+  Available_sizes: AvailableSizesStructure;
   Customizable: boolean;
   Whatsapp_message: string;
   Images: ImageFile[];
