@@ -4,7 +4,7 @@ const STRAPI_URL = import.meta.env.VITE_API_URL || "http://localhost:1337";
 
 export async function getProducts(): Promise<Product[]> {
   // Added the required '/api' prefix to the URL
-  const response = await fetch(`${STRAPI_URL}/api/products?populate=*`);
+  const response = await fetch(`${STRAPI_URL}/products?populate=*`);
   if (!response.ok) {
     throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
   }
