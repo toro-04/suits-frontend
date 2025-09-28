@@ -1,4 +1,4 @@
-// ProductImageGallery.tsx (Fixed mobile arrows)
+// ProductImageGallery.tsx (Fixed image URLs)
 import { useState, useRef} from "react";
 import type { ImageFile } from "../../types/strapi";
 
@@ -13,6 +13,13 @@ export function ProductImageGallery({ images, productName, strapiUrl }: ProductI
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+
+  // Helper function to get correct image URL
+  const getImageUrl = (image: ImageFile) => {
+    // Remove /api from strapiUrl for images
+    const baseUrl = strapiUrl.replace('/api', '');
+    return `${baseUrl}${image.url}`;
+  };
 
   if (!images || images.length === 0) {
     return (
@@ -67,10 +74,14 @@ export function ProductImageGallery({ images, productName, strapiUrl }: ProductI
           onTouchEnd={onTouchEnd}
         >
           <img
-            src={`${strapiUrl}${images[activeImageIndex].url}`}
+            src={getImageUrl(images[activeImageIndex])}
             alt={productName}
             className="w-full h-full object-cover transition-all duration-500"
             draggable={false}
+            onError={(e) => {
+              console.error('Failed to load image:', getImageUrl(images[activeImageIndex]));
+              e.currentTarget.style.display = 'none';
+            }}
           />
         </div>
         
@@ -139,9 +150,10 @@ export function ProductImageGallery({ images, productName, strapiUrl }: ProductI
               }`}
             >
               <img
-                src={`${strapiUrl}${image.url}`}
+                src={getImageUrl(image)}
                 alt={`View ${index + 1}`}
                 className="w-full h-full object-cover"
+                onError={(e) => e.currentTarget.style.display = 'none'}
               />
             </button>
           ))}
