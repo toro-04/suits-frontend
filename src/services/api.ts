@@ -17,7 +17,7 @@ export async function getProducts(): Promise<Product[]> {
 
 export async function getProductById(id: string): Promise<Product> {
   // Added the required '/api' prefix to the URL
-  const response = await fetch(`${STRAPI_URL}/api/products/${id}?populate=*`);
+  const response = await fetch(`${STRAPI_URL}/products/${id}?populate=*`);
   if (!response.ok) {
     throw new Error(`Failed to fetch product with id ${id}`);
   }
