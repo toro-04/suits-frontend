@@ -1,56 +1,64 @@
-// Defines the structure for image data from Strapi
-interface StrapiImageAttributes {
-  url: string;
-  width: number;
-  height: number;
-  name: string;
-}
-
-interface StrapiImageData {
-  id: number;
-  attributes: StrapiImageAttributes;
-}
-
-// New type for the color options
+// A single color option
 export interface ColorOption {
   hex: string;
+  code: string;
   label: string;
 }
 
-// New type for the size options
+// The structure of the Available_Color object
+export interface AvailableColorStructure {
+  availableColors: ColorOption[];
+}
+
+// A single size option
 export interface SizeOption {
   code: string;
   label: string;
 }
 
+// The structure of the Available_sizes object
+export interface AvailableSizesStructure {
+  altSuitSizing: SizeOption[];
+  availableSizes: SizeOption[];
+}
 
+// A single image file from your 'Images' array
+export interface ImageFile {
+  id: number;
+  url: string;
+  name: string;
+  width: number;
+  height: number;
+  // Add other image properties if you need them
+}
+
+// The main Product type, now fully typed
 export interface Product {
   id: number;
-  attributes: {
-    name: string;
-    description: string;
-    base_price: number; 
-    customizable: boolean;
-    whatsapp_message: string;
-    availableColors: ColorOption[]; 
-    available_sizes: SizeOption[];   
-    images: {
-      data: StrapiImageData[];
-    };
-  };
+  documentId: string;
+  Name: string;
+  Description: string;
+  Base_Price: number;
+  Available_Color: AvailableColorStructure; // Updated from 'any'
+  Available_sizes: AvailableSizesStructure; // Updated from 'any'
+  Customizable: boolean;
+  Whatsapp_message: string;
+  Images: ImageFile[];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
-// A generic type for a Strapi API response containing a single item
+// Generic Strapi response types
 export interface StrapiResponse<T> {
   data: T;
-  meta: {};
+  meta?: any;
 }
 
-// A generic type for a Strapi API response containing multiple items
 export interface StrapiCollectionResponse<T> {
   data: T[];
-  meta: {
-    pagination: {
+  meta?: {
+    pagination?: {
       page: number;
       pageSize: number;
       pageCount: number;
