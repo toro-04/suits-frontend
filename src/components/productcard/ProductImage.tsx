@@ -1,70 +1,57 @@
-// ProductImage.tsx
-import { useState } from "react";
 import type { ImageFile } from "../../types/strapi";
+
+// Get the base URL directly from environment variables for cleaner code
+const STRAPI_URL = (import.meta.env.VITE_API_URL || "http://localhost:1337").replace('/api', '');
 
 interface ProductImageProps {
   images?: ImageFile[];
   productName?: string;
-  strapiUrl: string;
 }
 
-export function ProductImage({ images, productName, strapiUrl }: ProductImageProps) {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  
+export function ProductImage({ images, productName }: ProductImageProps) {
   const hasImages = images && images.length > 0;
-  const hasMultipleImages = images && images.length > 1;
-  const currentImage = hasImages ? images[currentImageIndex] : null;
+  const primaryImage = hasImages ? images[0] : null;
+  const secondaryImage = images && images.length > 1 ? images[1] : null;
 
-  const handleMouseEnter = () => {
-    if (hasMultipleImages) {
-      setCurrentImageIndex(1);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setCurrentImageIndex(0);
-  };
-
-  if (!hasImages) {
+  // Fallback for when no images are available
+  if (!primaryImage) {
     return (
-      <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <svg className="mx-auto h-12 w-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 48 48">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} 
-              d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m-16-5c9.837 0 16-3.582 16-8" />
-          </svg>
-        </div>
+      <div className="aspect-[4/5] bg-gray-100 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
       </div>
     );
   }
 
   return (
-    <div 
-      className="relative aspect-[3/4] bg-gray-50 overflow-hidden"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
+      {/* --- Skeleton Loader --- */}
+      <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
+
+      {/* --- Primary Image (Always in the back) --- */}
       <img
-        src={`${strapiUrl}${currentImage?.url || ''}`}
+        src={`${STRAPI_URL}${primaryImage.url}`}
         alt={productName || 'Product'}
-        className={`w-full h-full object-cover transition-all duration-500 ${
-          imageLoaded ? 'opacity-100' : 'opacity-0'
-        } group-hover:scale-105`}
+        className="relative z-10 h-full w-full object-cover object-center transition-opacity duration-300"
         loading="lazy"
-        onLoad={() => setImageLoaded(true)}
       />
       
-      {hasMultipleImages && (
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1">
-          {images.slice(0, 3).map((_, index) => (
-            <div
-              key={index}
-              className={`h-1 w-4 rounded-full transition-all duration-300 ${
-                index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-              }`}
-            />
-          ))}
+      {/* --- Secondary Image (Fades in on top on hover) --- */}
+      {secondaryImage && (
+        <img
+          src={`${STRAPI_URL}${secondaryImage.url}`}
+          alt={productName || 'Product Hover'}
+          className="absolute inset-0 z-20 h-full w-full object-cover object-center opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
+          loading="lazy"
+        />
+      )}
+
+      {/* --- Image Indicator Dots --- */}
+      {secondaryImage && (
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-30">
+          <div className="h-2 w-2 rounded-full bg-white/70 transition-opacity duration-300 group-hover:bg-white/50"></div>
+          <div className="h-2 w-2 rounded-full bg-white/50 transition-opacity duration-300 group-hover:bg-white/70"></div>
         </div>
       )}
     </div>

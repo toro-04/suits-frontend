@@ -1,61 +1,36 @@
-// ColorSwatches.tsx
-import type { AvailableColorStructure } from "../../types/strapi";
-
-interface Color {
-  name: string;
-  value: string; // hex code
-}
+import type { ColorOption } from "../../types/strapi"; // Using the type from our main types file
 
 interface ColorSwatchesProps {
-  colors?: Color[] | string | AvailableColorStructure; // Support your Strapi structure
+  colors?: ColorOption[];
 }
 
 export function ColorSwatches({ colors }: ColorSwatchesProps) {
-  // Parse colors if it's a JSON string or convert from AvailableColorStructure
-  let colorArray: Color[] = [];
-  
-  if (colors) {
-    try {
-      if (typeof colors === 'string') {
-        colorArray = JSON.parse(colors);
-      } else if (Array.isArray(colors)) {
-        colorArray = colors;
-      } else if (colors && 'availableColors' in colors) {
-        // Handle AvailableColorStructure from your Strapi API
-        colorArray = colors.availableColors.map(colorOption => ({
-          name: colorOption.label,
-          value: colorOption.hex
-        }));
-      }
-    } catch (error) {
-      console.warn('Failed to parse colors:', error);
-    }
-  }
-
-  // Only show if we have actual colors
-  if (!colorArray || colorArray.length === 0) {
+  // If no colors are provided, or the array is empty, render nothing.
+  if (!colors || colors.length === 0) {
     return null;
   }
 
+  const MAX_SWATCHES = 5;
+  const swatchesToShow = colors.slice(0, MAX_SWATCHES);
+  const hiddenSwatchesCount = colors.length - MAX_SWATCHES;
+
   return (
-    <div className="px-4 pb-4">
+    <div>
       <div className="flex items-center space-x-2">
-        <span className="text-xs text-gray-500 font-light">Colors:</span>
-        <div className="flex space-x-1">
-          {colorArray.slice(0, 4).map((color, index) => (
-            <div
-              key={index}
-              className="w-3 h-3 rounded-full border border-gray-200"
-              style={{ backgroundColor: color.value }}
-              title={color.name}
-            />
-          ))}
-          {colorArray.length > 4 && (
-            <span className="text-xs text-gray-400 ml-1">
-              +{colorArray.length - 4}
-            </span>
-          )}
-        </div>
+        {/* We use a ring effect to make light colors visible on a white background */}
+        {swatchesToShow.map((color) => (
+          <div
+            key={color.label}
+            className="h-5 w-5 rounded-full border border-black/10 ring-1 ring-inset ring-gray-200"
+            style={{ backgroundColor: color.hex }}
+            title={color.label}
+          />
+        ))}
+        {hiddenSwatchesCount > 0 && (
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-100 text-xs font-semibold text-gray-500 hover:bg-gray-200">
+            +{hiddenSwatchesCount}
+          </div>
+        )}
       </div>
     </div>
   );
