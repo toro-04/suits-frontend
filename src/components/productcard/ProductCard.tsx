@@ -8,6 +8,8 @@ interface ProductCardProps {
   product: Product;
 }
 
+
+
 export function ProductCard({ product }: ProductCardProps) {
   if (!product) return null;
 
@@ -19,18 +21,21 @@ export function ProductCard({ product }: ProductCardProps) {
       className="block group"
       aria-label={`View ${Name}`}
     >
-      <div className="bg-white transition-transform duration-300 group-hover:scale-[1.02]">
+      <div className="bg-white transition-all duration-300 hover:shadow-lg">
         <ProductImage 
           images={Images} 
           productName={Name}
         />
-        <ProductInfo 
-          name={Name} 
-          price={Base_Price} 
-        />
-        <ColorSwatches 
-          colors={Available_Color}
-        />
+        
+        <div className="p-4 space-y-3">
+          <ProductInfo 
+            name={Name} 
+            price={Base_Price} 
+          />
+          <ColorSwatches  
+            colors={Available_Color}
+          />
+        </div>
       </div>
     </Link>
   );
