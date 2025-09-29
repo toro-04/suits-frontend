@@ -28,12 +28,23 @@ export function ActionButtons({ product, selectedSize, selectedColor }: ActionBu
       message += `Color: ${selectedColor}\n`;
     }
 
+    // Debug logging to see what we're getting
+    console.log('Whatsapp_message value:', Whatsapp_message);
+    console.log('Whatsapp_message type:', typeof Whatsapp_message);
+
     // Add custom message if custom size selected
     if (isCustomSize) {
       message += `I would like custom tailoring (Made to Measure).\n`;
-      message += (typeof Whatsapp_message === "string" && Whatsapp_message.trim().length > 0)
-        ? Whatsapp_message
-        : "Please provide custom tailoring details and measurement instructions.";
+      
+      // Check if Whatsapp_message exists and is not empty
+      if (Whatsapp_message && 
+          typeof Whatsapp_message === "string" && 
+          Whatsapp_message.trim().length > 0 &&
+          Whatsapp_message.trim() !== "a;dkaj;flsdjfsdfj") {
+        message += Whatsapp_message;
+      } else {
+        message += "Please provide custom tailoring details and measurement instructions.";
+      }
     } else {
       message += `I'm interested in the standard size.`;
     }
@@ -45,6 +56,20 @@ export function ActionButtons({ product, selectedSize, selectedColor }: ActionBu
 
   return (
     <div className="space-y-4 pt-8">
+      {/* Debug section - remove after fixing */}
+      <div style={{ 
+        padding: '10px', 
+        backgroundColor: 'yellow', 
+        color: 'black', 
+        fontSize: '12px',
+        border: '2px solid orange'
+      }}>
+        <p><strong>DEBUG - WhatsApp Message:</strong></p>
+        <p>Value: "{product.Whatsapp_message}"</p>
+        <p>Type: {typeof product.Whatsapp_message}</p>
+        <p>Length: {product.Whatsapp_message ? product.Whatsapp_message.length : 'null/undefined'}</p>
+      </div>
+
       <button 
         onClick={handleWhatsAppRedirect}
         className="w-full bg-black text-white py-4 px-8 font-medium text-lg uppercase tracking-wider hover:bg-gray-800 transition-colors duration-200"
