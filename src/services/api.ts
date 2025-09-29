@@ -4,6 +4,7 @@ import type { Product } from "../types/strapi";
 const API_BASE_URL = (import.meta.env.VITE_API_URL || "https://suitsbackend-production.up.railway.app/api").replace(/\/$/, '');
 const STRAPI_BASE_URL = (import.meta.env.VITE_API_URL || "https://suitsbackend-production.up.railway.app").replace(/\/api$/, '').replace(/\/$/, '');
 
+
 export async function getProducts(): Promise<Product[]> {
   const response = await fetch(`${API_BASE_URL}/products?populate=*`, {
     method: 'GET',

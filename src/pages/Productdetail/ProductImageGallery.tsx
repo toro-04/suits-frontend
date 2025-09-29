@@ -8,6 +8,7 @@ interface ProductImageGalleryProps {
 }
 
 export function ProductImageGallery({ images, productName }: ProductImageGalleryProps) {
+  console.log('Gallery rendering with:', { images, productName });
   const [activeIndex, setActiveIndex] = useState(0);
 
   // Fallback for when no images are provided
