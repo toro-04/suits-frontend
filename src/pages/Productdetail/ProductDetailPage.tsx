@@ -29,6 +29,14 @@ export function ProductDetailPage() {
         setError(null);
         const productData = await getProductById(productId);
         setProduct(productData);
+        
+        // Debug logging
+        console.log('Product data loaded:', {
+          product: productData,
+          colors: productData.Available_Color,
+          sizes: productData.Available_sizes,
+          customizable: productData.Customizable
+        });
       } catch (err) {
         console.error('Error loading product:', err);
         setError(err instanceof Error ? err.message : 'Failed to load product');
@@ -98,6 +106,14 @@ export function ProductDetailPage() {
               price={product.Base_Price}
               description={product.Description}
             />
+
+            {/* Debug info - remove this after fixing */}
+            <div className="p-4 bg-gray-100 rounded text-xs">
+              <p>Debug Info:</p>
+              <p>Colors: {JSON.stringify(product.Available_Color)}</p>
+              <p>Sizes: {JSON.stringify(product.Available_sizes)}</p>
+              <p>Customizable: {product.Customizable ? 'Yes' : 'No'}</p>
+            </div>
 
             <ColorSelector 
               colors={product.Available_Color}

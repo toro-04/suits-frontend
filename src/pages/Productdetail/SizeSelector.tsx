@@ -5,13 +5,16 @@ interface SizeSelectorProps {
   sizes?: AvailableSizesStructure;
   selectedSize: string;
   onSizeChange: (size: string) => void;
-  customizable?: boolean; // Add this prop
+  customizable?: boolean;
 }
 
 const DEFAULT_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
 
 export function SizeSelector({ sizes, selectedSize, onSizeChange, customizable }: SizeSelectorProps) {
   let sizeArray: string[] = [];
+
+  console.log('SizeSelector received sizes:', sizes);
+  console.log('SizeSelector customizable:', customizable);
 
   // Parse sizes from AvailableSizesStructure
   if (sizes) {
@@ -86,6 +89,11 @@ export function SizeSelector({ sizes, selectedSize, onSizeChange, customizable }
           Selected: <span className="font-medium">{selectedSize}</span>
         </p>
       )}
+      
+      {/* Debug info - remove after fixing */}
+      <div className="text-xs text-gray-400">
+        Debug: Regular sizes: {regularSizes.join(', ')} | Customizable: {customizable ? 'Yes' : 'No'}
+      </div>
     </div>
   );
 }
