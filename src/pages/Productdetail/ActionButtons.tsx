@@ -31,7 +31,9 @@ export function ActionButtons({ product, selectedSize, selectedColor }: ActionBu
     // Add custom message if custom size selected
     if (isCustomSize) {
       message += `I would like custom tailoring (Made to Measure).\n`;
-      message += `${Whatsapp_message || 'Please provide custom tailoring details and measurement instructions.'}`;
+      message += (typeof Whatsapp_message === "string" && Whatsapp_message.trim().length > 0)
+        ? Whatsapp_message
+        : "Please provide custom tailoring details and measurement instructions.";
     } else {
       message += `I'm interested in the standard size.`;
     }
