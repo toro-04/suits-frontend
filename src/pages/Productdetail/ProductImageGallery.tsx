@@ -1,8 +1,6 @@
 import { useState } from "react";
 import type { ImageFile } from "../../types/strapi";
-
-// Get the base URL directly in the component for cleaner props
-const STRAPI_URL = (import.meta.env.VITE_API_URL || "http://localhost:1337").replace('/api', '');
+import { getImageUrl } from "../../services/api";
 
 interface ProductImageGalleryProps {
   images?: ImageFile[];
@@ -46,23 +44,39 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         {images.map((image, index) => (
           <img
             key={image.id}
-            src={`${STRAPI_URL}${image.url}`}
-            alt={`${productName} - view ${index + 1}`}
+            src={getImageUrl(image.url)}
+            alt={image.alternativeText || `${productName} - view ${index + 1}`}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${
               index === activeIndex ? 'opacity-100' : 'opacity-0'
             }`}
             draggable={false}
+            crossOrigin="anonymous"
+            onError={(e) => {
+              console.error('Gallery image failed to load:', getImageUrl(image.url));
+            }}
           />
         ))}
 
         {/* Navigation Arrows */}
         {images.length > 1 && (
           <>
-            <button onClick={prevImage} className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-0 group-hover:opacity-100">
-              <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            <button 
+              onClick={prevImage} 
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+              aria-label="Previous image"
+            >
+              <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
             </button>
-            <button onClick={nextImage} className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-0 group-hover:opacity-100">
-              <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            <button 
+              onClick={nextImage} 
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+              aria-label="Next image"
+            >
+              <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </>
         )}
@@ -85,11 +99,16 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
               className={`flex-shrink-0 w-16 h-20 overflow-hidden rounded-md border-2 p-1 transition-all duration-200 ${
                 activeIndex === index ? 'border-blue-500' : 'border-transparent hover:border-gray-400'
               }`}
+              aria-label={`View image ${index + 1}`}
             >
               <img
-                src={`${STRAPI_URL}${image.url}`}
-                alt={`Thumbnail ${index + 1}`}
+                src={getImageUrl(image.url)}
+                alt={image.alternativeText || `Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover rounded-sm"
+                crossOrigin="anonymous"
+                onError={(e) => {
+                  console.error('Thumbnail failed to load:', getImageUrl(image.url));
+                }}
               />
             </button>
           ))}
