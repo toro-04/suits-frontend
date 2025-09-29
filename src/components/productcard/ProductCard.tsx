@@ -15,11 +15,13 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link 
-      to={`/product/${documentId || id}`} 
-      className="block group"
-      aria-label={`View ${Name}`}
-    >
-      <div className="bg-white transition-all duration-300 hover:shadow-lg rounded-lg overflow-hidden">
+  to={`/product/${documentId || id}`} 
+  className="block group"
+  aria-label={`View ${Name}`}
+>
+  <div className="bg-white transition-shadow duration-300 hover:shadow-md rounded-lg overflow-hidden border border-gray-100">
+    {/* Rest of your code stays the same */}
+
         <ProductImage 
           images={Images} 
           productName={Name}
