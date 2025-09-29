@@ -63,7 +63,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
           <>
             <button 
               onClick={prevImage} 
-              className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-0 group-hover:opacity-100"
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-all opacity-100"
               aria-label="Previous image"
             >
               <svg className="w-6 h-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
