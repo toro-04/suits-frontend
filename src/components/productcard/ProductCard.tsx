@@ -15,26 +15,25 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link 
-  to={`/product/${documentId || id}`} 
-  className="block group"
-  aria-label={`View ${Name}`}
->
-  <div className="bg-white transition-shadow duration-300 hover:shadow-md rounded-lg overflow-hidden border border-gray-100">
-    {/* Rest of your code stays the same */}
-
-        <ProductImage 
-          images={Images} 
-          productName={Name}
-        />
+      to={`/product/${documentId || id}`} 
+      className="block group"
+      aria-label={`View ${Name}`}
+    >
+      <div className="bg-white transition-shadow duration-300 hover:shadow-md rounded-lg overflow-hidden border border-gray-100">
+        {/* Fixed height container to prevent layout shift */}
+        <div className="aspect-[4/5] relative overflow-hidden">
+          <ProductImage 
+            images={Images} 
+            productName={Name}
+          />
+        </div>
         
-        <div className="space-y-3">
+        <div className="p-4 space-y-3">
           <ProductInfo 
             name={Name} 
             price={Base_Price} 
           />
-          <div className="px-4 pb-4">
-            <ColorSwatches colors={Available_Color} />
-          </div>
+          <ColorSwatches colors={Available_Color} />
         </div>
       </div>
     </Link>
