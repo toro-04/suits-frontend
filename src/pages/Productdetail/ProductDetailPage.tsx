@@ -107,9 +107,15 @@ export function ProductDetailPage() {
               description={product.Description}
             />
 
-            {/* Debug info - remove this after fixing */}
-            <div className="p-4 bg-gray-100 rounded text-xs">
-              <p>Debug Info:</p>
+            {/* BIG RED TEST SECTION */}
+            <div style={{ 
+              padding: '20px', 
+              backgroundColor: 'red', 
+              color: 'white', 
+              fontSize: '20px',
+              border: '5px solid black'
+            }}>
+              <h1>🚨 TEST SECTION 🚨</h1>
               <p>Colors: {JSON.stringify(product.Available_Color)}</p>
               <p>Sizes: {JSON.stringify(product.Available_sizes)}</p>
               <p>Customizable: {product.Customizable ? 'Yes' : 'No'}</p>
