@@ -14,7 +14,7 @@ export function ProductImage({ images, productName }: ProductImageProps) {
 
   if (!images || images.length === 0) {
     return (
-      <div className="w-full h-80 bg-gray-200 flex items-center justify-center">
+      <div className="w-full aspect-[3/4] bg-gray-200 flex items-center justify-center">
         <span className="text-gray-500">No Image Available</span>
       </div>
     );
@@ -24,7 +24,7 @@ export function ProductImage({ images, productName }: ProductImageProps) {
 
   return (
     <div
-      className="relative w-full h-80 overflow-hidden"
+      className="relative w-full aspect-[3/4] overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -32,13 +32,9 @@ export function ProductImage({ images, productName }: ProductImageProps) {
         <img
           src={getImageUrl(currentImage.url)}
           alt={currentImage.alternativeText || productName || "Product image"}
-          className="w-full h-full object-cover transition-all duration-300"
-          onError={(e) => {
-            console.error("Image failed to load:", getImageUrl(currentImage.url));
-            setImageError(true);
-          }}
+          className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+          onError={() => setImageError(true)}
           loading="lazy"
-          crossOrigin="anonymous"
         />
       ) : (
         <div className="flex items-center justify-center h-full text-gray-500">
@@ -46,14 +42,16 @@ export function ProductImage({ images, productName }: ProductImageProps) {
         </div>
       )}
 
-      {/* Show image indicators if multiple images */}
       {images.length > 1 && isHovered && (
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1">
           {images.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentImageIndex(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
+              onClick={(e) => {
+                e.preventDefault();
+                setCurrentImageIndex(index);
+              }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
                 index === currentImageIndex ? "bg-white" : "bg-white/50"
               }`}
             />
