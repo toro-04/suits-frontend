@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: '/', // 👈 important for clean routing on Vercel
   css: {
     devSourcemap: true,
   },
