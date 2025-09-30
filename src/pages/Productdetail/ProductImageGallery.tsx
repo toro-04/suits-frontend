@@ -45,11 +45,10 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
           src={imageUrls[currentImageIndex]}
           alt={`${productName} - Image ${currentImageIndex + 1}`}
           className="w-full h-full object-cover"
-          onError={(_) => {
+          onError={(e) => {
             // Handle broken images by showing placeholder
-            const img = _ as any;
-            if (img.target && img.target.src !== '/api/placeholder/600/800') {
-              img.target.src = '/api/placeholder/600/800';
+            if (e.currentTarget && e.currentTarget.src !== '/api/placeholder/600/800') {
+              e.currentTarget.src = '/api/placeholder/600/800';
             }
           }}
         />
@@ -104,11 +103,10 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
                 src={url}
                 alt={`${productName} thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
-                onError={(_) => {
+                onError={(e) => {
                   // Handle broken thumbnail images
-                  const img = _ as any;
-                  if (img.target && img.target.src !== '/api/placeholder/150/150') {
-                    img.target.src = '/api/placeholder/150/150';
+                  if (e.currentTarget && e.currentTarget.src !== '/api/placeholder/150/150') {
+                    e.currentTarget.src = '/api/placeholder/150/150';
                   }
                 }}
               />
