@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { ImageFile } from "../../types/strapi";
 
 interface ProductImageGalleryProps {
-  images?: ImageFile[]; // Changed from ImageStructure to ImageFile[]
+  images?: ImageFile[];
   productName: string;
 }
 
@@ -37,6 +37,20 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
     setCurrentImageIndex(index);
   };
 
+  const handleMainImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = event.currentTarget;
+    if (target.src !== '/api/placeholder/600/800') {
+      target.src = '/api/placeholder/600/800';
+    }
+  };
+
+  const handleThumbnailError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = event.currentTarget;
+    if (target.src !== '/api/placeholder/150/150') {
+      target.src = '/api/placeholder/150/150';
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Main Image Display */}
@@ -45,12 +59,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
           src={imageUrls[currentImageIndex]}
           alt={`${productName} - Image ${currentImageIndex + 1}`}
           className="w-full h-full object-cover"
-          onError={(e) => {
-            // Handle broken images by showing placeholder
-            if (e.currentTarget && e.currentTarget.src !== '/api/placeholder/600/800') {
-              e.currentTarget.src = '/api/placeholder/600/800';
-            }
-          }}
+          onError={handleMainImageError}
         />
         
         {/* Navigation Arrows - Only show if more than one image */}
@@ -103,12 +112,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
                 src={url}
                 alt={`${productName} thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
-                onError={(e) => {
-                  // Handle broken thumbnail images
-                  if (e.currentTarget && e.currentTarget.src !== '/api/placeholder/150/150') {
-                    e.currentTarget.src = '/api/placeholder/150/150';
-                  }
-                }}
+                onError={handleThumbnailError}
               />
             </button>
           ))}
