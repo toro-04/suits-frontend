@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProductListPage } from "./pages/ProductListPage";
-import ProductDetailPage from "./pages/Productdetail/ProductDetailPage";
+import {ProductDetailPage} from "./pages/Productdetail/ProductDetailPage";
 import { Layout } from "./components/layout/Layout"; // Import the new Layout component
 
 // A simple component for a "Not Found" page

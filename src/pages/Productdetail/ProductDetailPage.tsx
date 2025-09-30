@@ -29,14 +29,6 @@ export function ProductDetailPage() {
         setError(null);
         const productData = await getProductById(productId);
         setProduct(productData);
-        
-        // Debug logging
-        console.log('Product data loaded:', {
-          product: productData,
-          colors: productData.Available_Color,
-          sizes: productData.Available_sizes,
-          customizable: productData.Customizable
-        });
       } catch (err) {
         console.error('Error loading product:', err);
         setError(err instanceof Error ? err.message : 'Failed to load product');
@@ -106,20 +98,6 @@ export function ProductDetailPage() {
               price={product.Base_Price}
               description={product.Description}
             />
-
-            {/* BIG RED TEST SECTION */}
-            <div style={{ 
-              padding: '20px', 
-              backgroundColor: 'red', 
-              color: 'white', 
-              fontSize: '20px',
-              border: '5px solid black'
-            }}>
-              <h1>🚨 TEST SECTION 🚨</h1>
-              <p>Colors: {JSON.stringify(product.Available_Color)}</p>
-              <p>Sizes: {JSON.stringify(product.Available_sizes)}</p>
-              <p>Customizable: {product.Customizable ? 'Yes' : 'No'}</p>
-            </div>
 
             <ColorSelector 
               colors={product.Available_Color}
