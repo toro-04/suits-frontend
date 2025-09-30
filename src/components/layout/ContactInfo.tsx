@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export function ContactSection() {
   const handleWhatsAppClick = () => {
-    const phoneNumber = "919876543210"; // Replace with your number
+    const phoneNumber = "918010587915"; 
     const message = "Hello! I have a question about your suits.";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
