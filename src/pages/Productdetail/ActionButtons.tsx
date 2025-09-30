@@ -45,7 +45,7 @@ export function ActionButtons({ product, selectedSize, selectedColor }: ActionBu
       message += `I'm interested in the standard size.`;
     }
 
-    const phoneNumber = "918375074999";
+    const phoneNumber = "8010587915";
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
