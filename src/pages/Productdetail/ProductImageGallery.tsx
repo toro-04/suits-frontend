@@ -8,6 +8,7 @@ interface ProductImageGalleryProps {
 
 export function ProductImageGallery({ images, productName }: ProductImageGalleryProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
   // Extract image URLs from the ImageFile array
   const imageUrls: string[] = [];
@@ -22,7 +23,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
 
   // Fallback to a placeholder if no images
   if (imageUrls.length === 0) {
-    imageUrls.push('/api/placeholder/600/800');
+    imageUrls.push('https://via.placeholder.com/600x800/f3f4f6/9ca3af?text=No+Image');
   }
 
   const nextImage = () => {
@@ -39,15 +40,23 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
 
   const handleMainImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = event.currentTarget;
-    if (target.src !== '/api/placeholder/600/800') {
-      target.src = '/api/placeholder/600/800';
+    const currentSrc = target.src;
+    
+    // Prevent infinite loops by tracking failed images
+    if (!failedImages.has(currentSrc)) {
+      setFailedImages(prev => new Set([...prev, currentSrc]));
+      target.src = 'https://via.placeholder.com/600x800/f3f4f6/9ca3af?text=Image+Not+Found';
     }
   };
 
   const handleThumbnailError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = event.currentTarget;
-    if (target.src !== '/api/placeholder/150/150') {
-      target.src = '/api/placeholder/150/150';
+    const currentSrc = target.src;
+    
+    // Prevent infinite loops by tracking failed images
+    if (!failedImages.has(currentSrc)) {
+      setFailedImages(prev => new Set([...prev, currentSrc]));
+      target.src = 'https://via.placeholder.com/150x150/f3f4f6/9ca3af?text=No+Image';
     }
   };
 
@@ -60,6 +69,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
           alt={`${productName} - Image ${currentImageIndex + 1}`}
           className="w-full h-full object-cover"
           onError={handleMainImageError}
+          loading="lazy"
         />
         
         {/* Navigation Arrows - Only show if more than one image */}
@@ -113,6 +123,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
                 alt={`${productName} thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
                 onError={handleThumbnailError}
+                loading="lazy"
               />
             </button>
           ))}
