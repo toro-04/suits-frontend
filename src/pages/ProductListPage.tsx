@@ -182,7 +182,7 @@ export function ProductListPage() {
         
         {/* Hero Section */}
         <div className="text-center space-y-6 mb-16">
-          <h1 className="text-4xl lg:text-5xl font-light tracking-wide text-gray-900">
+          <h1 className="text-4xl lg:text-3xl font-light tracking-wide text-gray-900">
             Premium Collection
           </h1>
           <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">

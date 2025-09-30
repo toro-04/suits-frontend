@@ -1,4 +1,4 @@
-// Header.tsx (Just logo and announcement)
+// Header.tsx (With Zara-style typography)
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -18,7 +18,7 @@ export function Header() {
         FREE SHIPPING ON ORDERS OVER ₹2,999 | CUSTOM TAILORING AVAILABLE
       </div>
 
-      {/* Simple Header with just logo */}
+      {/* Zara-style Header */}
       <header className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white'
       }`}>
@@ -26,9 +26,19 @@ export function Header() {
           <div className="flex items-center justify-center h-16 lg:h-20">
             <Link 
               to="/" 
-              className="text-2xl lg:text-3xl font-light text-gray-900 tracking-wider hover:text-black transition-colors"
+              className="zara-logo-style text-black hover:text-gray-800 transition-colors"
+              style={{
+                fontFamily: "'Playfair Display', 'Didot', 'Times New Roman', serif",
+                fontWeight: 800,
+                fontSize: 'clamp(3rem, 7vw, 6rem)',
+                letterSpacing: '-0.05em',
+                transform: 'scaleX(0.75)',
+                transformOrigin: 'center',
+                lineHeight: 0.9,
+                textDecoration: 'none'
+              }}
             >
-              NAVKIRAN SUITS
+              NAVKIRAN
             </Link>
           </div>
         </div>

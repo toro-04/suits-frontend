@@ -2,3 +2,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Import Playfair Display from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap');
+
+/* Zara-style logo class */
+.zara-logo-style {
+  font-family: 'Playfair Display', 'Didot', 'Times New Roman', serif !important;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  transform: scaleX(0.75);
+  transform-origin: center;
+  line-height: 0.9;
+  font-feature-settings: 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .zara-logo-style {
+    transform: scaleX(0.8);
+  }
+}
